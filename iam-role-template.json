@@ -1,0 +1,77 @@
+{
+  "Description": "IAM Role para Grafana CloudWatch - Crear en cada cuenta AWS que quieras monitorear",
+  "Instructions": [
+    "1. Ve a la consola de AWS IAM en la cuenta que quieres monitorear",
+    "2. Crea un nuevo rol con 'Another AWS account' como trusted entity",
+    "3. Account ID: 008923505280 (Grafana Cloud)",
+    "4. Marca 'Require external ID' y usa: 1218718",
+    "5. Adjunta la policy de abajo o usa la managed policy CloudWatchReadOnlyAccess",
+    "6. Nombre del rol: GrafanaCloudWatchRole"
+  ],
+  "TrustPolicy": {
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect": "Allow",
+        "Principal": {
+          "AWS": "arn:aws:iam::008923505280:root"
+        },
+        "Action": "sts:AssumeRole",
+        "Condition": {
+          "StringEquals": {
+            "sts:ExternalId": "1218718"
+          }
+        }
+      }
+    ]
+  },
+  "PermissionsPolicy": {
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Sid": "CloudWatchMetricsReadAccess",
+        "Effect": "Allow",
+        "Action": [
+          "cloudwatch:DescribeAlarmsForMetric",
+          "cloudwatch:DescribeAlarmHistory",
+          "cloudwatch:DescribeAlarms",
+          "cloudwatch:ListMetrics",
+          "cloudwatch:GetMetricStatistics",
+          "cloudwatch:GetMetricData",
+          "cloudwatch:GetInsightRuleReport"
+        ],
+        "Resource": "*"
+      },
+      {
+        "Sid": "CloudWatchLogsReadAccess",
+        "Effect": "Allow",
+        "Action": [
+          "logs:DescribeLogGroups",
+          "logs:GetLogGroupFields",
+          "logs:StartQuery",
+          "logs:StopQuery",
+          "logs:GetQueryResults",
+          "logs:GetLogEvents",
+          "logs:FilterLogEvents"
+        ],
+        "Resource": "*"
+      },
+      {
+        "Sid": "EC2DescribeRegions",
+        "Effect": "Allow",
+        "Action": [
+          "ec2:DescribeRegions"
+        ],
+        "Resource": "*"
+      },
+      {
+        "Sid": "TagsReadAccess",
+        "Effect": "Allow",
+        "Action": [
+          "tag:GetResources"
+        ],
+        "Resource": "*"
+      }
+    ]
+  }
+}
