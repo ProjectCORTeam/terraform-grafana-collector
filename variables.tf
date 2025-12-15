@@ -25,7 +25,7 @@ variable "iam_role_path" {
 variable "grafana_cloud_account_id" {
   description = "Account ID de Grafana Cloud para la trust policy (se obtiene de Grafana Cloud)"
   type        = string
-  default     = ""  # El usuario debe proporcionar esto
+  default     = "" # El usuario debe proporcionar esto
 }
 
 variable "grafana_cloud_role_name" {
